@@ -1,0 +1,208 @@
+/*
+COLORS:
+
+Light green: #7ed56f
+Medium green: #55c57a
+Dark green: #28b485
+
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Lato", sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.7;
+	color: #777;
+	padding: 30px;
+}
+
+.header {
+	height: 95vh;
+	background-image: linear-gradient(to right bottom, rgba(126,213,111,0.8), rgba(40,180,133,0.8)), url(../img/hero.jpg);
+	background-size: cover;
+		/*whatever the width of the viewport or the element, it will always try to fit the element inside the box*/
+	background-attachment: top;
+	position: relative;
+		/* set position to "relative" since this is the origin or ther reference (parent element) from which the top and left values start to count; see ".logo-box". */
+
+	clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+		/*clip-path: polygon(x y, x y, x y, x y); CLOCKWISE*/
+		/*clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);*/
+}
+
+.logo-box {
+	position: absolute;
+	top: 40px;
+	left: 40px;
+		/* the reference of these measurements is the parent element whichh has its position set to "relative". in this case the ".header" is the parent element. */
+}
+
+.logo {
+	height: 35px;
+		/* width will be automatically figured out by the browser. */
+}
+
+/*.logo:hover {
+	animation: moveInRight 1s ease-out;
+}*/
+
+.text-box {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+		/*these 40% and 50% are in relation to their parent element, which is ".header". */
+	transform: translate(-50%, -50%);
+		/*for the translate values, both 50% are now no longer in relation to the parent element but to the element itself.*/
+		/*so if we say -50%, it will be shifted half of the width to the left side, and the same for the height.*/
+		/*TO TEST, set a different background-color;*/
+	
+	text-align: center;
+}
+
+.heading-primary {
+	color: #fff;
+	text-transform: uppercase;
+
+	backface-visibility: hidden;
+		/* this determines whether or not the 'back' side of a transformed element is visible when facing the viewer. this is the fix for the shaky animation of ".heading-primary-main" and ".heading-primary-sub". */
+
+	margin-bottom: 60px;
+}
+
+.heading-primary-main {
+	display: block;
+	font-size: 60px;
+	font-weight: 400;
+	letter-spacing: 35px;
+
+	animation-name: moveInLeft;
+	animation-duration: 1s;
+	animation-timing-function: ease-out;
+	/*animation-iteration-count: 3;*/
+	/*animation-delay: 3s;*/
+}
+
+.heading-primary-sub {
+	display: block;
+	font-size: 20px;
+	font-weight: 700;
+	letter-spacing: 17.4px;
+
+	animation: moveInRight 1s ease-out;
+		/* to combine animation-name, -duration, and -timing-function */
+}
+
+@keyframes moveInLeft {
+	/*initial stage*/
+	0% {
+		opacity: 0;
+		transform: translateX(-100px);
+	}
+
+	80% {
+		transform: translateX(10px);
+	}
+
+	/*final stage*/
+	100% {
+		opacity: 1;
+		transform: translate(0);
+	}
+}
+
+@keyframes moveInRight {
+	/*initial stage*/
+	0% {
+		opacity: 0;
+		transform: translateX(100px);
+	}
+
+	80% {
+		transform: translateX(-10px);
+	}
+
+	/*final stage*/
+	100% {
+		opacity: 1;
+		transform: translate(0);
+	}
+}
+
+@keyframes moveInBottom {
+	/*initial stage*/
+	0% {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+
+	/*final stage*/
+	100% {
+		opacity: 1;
+		transform: translate(0);
+	}
+}
+
+.btn:link,
+.btn:visited {
+	text-transform: uppercase;
+	text-decoration: none;
+	padding: 15px 40px;
+	display: inline-block;
+	border-radius: 100px;
+	transition: all .2s;
+		/*specify which element/s to animate and the time*/
+	position: relative; 
+}
+
+.btn:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+		/*y x blur color*/
+}
+
+.btn:active {
+	transform: translateY(-1px);
+	box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.btn-white {
+	background-color: #fff;
+	color: #777;
+}
+
+.btn::after {
+	content: "";
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+	border-radius: 100px;
+	position: absolute; 
+		/* this needs a reference. right now it is the ".header", so add "position: relative" to ".btn:link, .btn:visited". */
+	top: 0;
+	left: 0;
+	z-index: -1;
+	transition: all .4s;
+}
+
+.btn-white::after {
+	background-color: #fff;
+}
+
+.btn:hover::after {
+	transform: scaleX(1.4) scaleY(1.6);
+	opacity: 0; 
+		/*this is the trick for fading something out.*/
+}
+
+.btn-animated {
+	animation: moveInBottom 0.5s ease-out .75s;
+		/* to combine animation-name, -duration, -timing-function, and -delay */
+	animation-fill-mode: backwards;
+		/* this fixes the problem where the button is visible BEFORE the animation happens. it automatically applies the 0% keyframe before the animation starts. */
+}
